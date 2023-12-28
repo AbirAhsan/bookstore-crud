@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bookstore-crud/config"
 	middlewares "bookstore-crud/middleware"
 	"net/http"
 
@@ -9,7 +10,7 @@ import (
 
 func main() {
 	server := gin.New()
-
+	config.ConnectBookDatabase()
 	server.Use(gin.Recovery(), middlewares.Logger())
 
 	server.GET("", func(ctx *gin.Context) {
