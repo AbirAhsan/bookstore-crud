@@ -2,6 +2,7 @@ package main
 
 import (
 	"bookstore-crud/config"
+	"bookstore-crud/controller"
 	middlewares "bookstore-crud/middleware"
 	"net/http"
 
@@ -19,5 +20,6 @@ func main() {
 			"success": true,
 		})
 	})
+	server.GET("/books", controller.FindAllBooks)
 	server.Run(":8080")
 }
