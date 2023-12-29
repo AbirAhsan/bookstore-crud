@@ -21,5 +21,6 @@ func main() {
 		})
 	})
 	server.GET("/books", controller.FindAllBooks)
+	server.POST("/createBook", controller.CreateNewBook)
 	server.Run(":8080")
 }
