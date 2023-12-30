@@ -74,6 +74,33 @@ func UpdateBookById(ctx *gin.Context) {
 	config.BookDb.Model(&book).Updates(input)
 	ctx.JSON(http.StatusBadRequest, gin.H{
 		"success": true,
+		"message": "Book updated successfully",
+		"data":    book,
+	})
+}
+
+// Delete Book
+func DeleteBook(ctx *gin.Context) {
+	//Get Model if Exist
+	var book models.BookModel
+	if err := config.BookDb.Where("id = ?", ctx.Param("id")).First(&book).Error; err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   err.Error(),
+		})
+		return
+	}
+	if err := config.BookDb.Delete(&book).Error; err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"error":   "Failed to delete the book",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "Book deleted successfully",
 		"data":    book,
 	})
 }

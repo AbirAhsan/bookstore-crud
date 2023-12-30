@@ -24,5 +24,6 @@ func main() {
 	server.POST("/createBook", controller.CreateNewBook)
 	server.GET("/book/:id", controller.FindBookById)
 	server.PATCH("/updateBook/:id", controller.UpdateBookById)
+	server.DELETE("/deleteBook/:id", controller.DeleteBook)
 	server.Run(":8080")
 }
