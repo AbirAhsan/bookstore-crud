@@ -50,3 +50,30 @@ func FindBookById(ctx *gin.Context) {
 		"success": true,
 		"data":    book})
 }
+
+// Update Book By ID
+func UpdateBookById(ctx *gin.Context) {
+	// Get model if exist
+	var book models.BookModel
+	if err := config.BookDb.Where("id= ?", ctx.Param("id")).First(&book).Error; err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   err.Error(),
+		})
+		return
+
+	}
+
+	// Validate input
+	var input models.CreateBookModel
+	if err := ctx.ShouldBind(&input); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"success": false, "error": err.Error()})
+		return
+	}
+
+	config.BookDb.Model(&book).Updates(input)
+	ctx.JSON(http.StatusBadRequest, gin.H{
+		"success": true,
+		"data":    book,
+	})
+}
